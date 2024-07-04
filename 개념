@@ -1,0 +1,324 @@
+# void 반환타입 (반환타입이 없는 메소드)
+: void란 Java에서 메서드가 값을 반환하지 않는다는 것을 나타내는 반환 타입
+  메소드가 호출된 후 아무것도 반환하지 않음.
+  단순히 작업을 수행하고 끝남.
+
+1. 반환 X
+
+1.1 변수초기화
+[사용 예]
+    // 기본 생성자
+    Fish() {
+    }
+
+    // 변수 초기화 메서드
+    public void initialize(String name, int min) {
+        this.name = name;
+        this.min = min;
+    }
+- initialize 메서드는 Fish 객체의 변수를 초기화함
+
+1.2 상태 변경
+[사용 예]
+	// 기본 생성자
+    Counter() {
+        this.count = 0;
+    }
+
+    // 카운터 증가 메서드
+    public void increment() {
+        count++;
+    }
+- increment 메서드는 Counter 객체의 count 변수를 증가시킴
+
+1.3 객체 간의 상호작용
+[사용 예]
+    // 기본 생성자
+    Car(String model) {
+        this.model = model;
+        this.isRunning = false;
+    }
+
+    // 시동 켜기 메서드
+    public void startEngine() {
+        isRunning = true;
+    }
+
+    // 시동 끄기 메서드
+    public void stopEngine() {
+        isRunning = false;
+    }
+- startEngine 및 stopEngine 메서드는 Car 객체의 상태를 변경함
+
+2. return을 사용하는 경우 (반환 O)
+- 메소드의 조기 종료
+
+3. print를 사용하는 경우 (반환 O)
+3.1 객체의 상태를 콘솔에 출력할 때
+[사용 예]
+    public void printDetails() {
+        System.out.println("Name: " + name);
+        System.out.println("Age: " + age);
+    }
+3.2 디버깅 정보를 출력할 때
+3.3 사용자 인터페이스 메시지를 출력할 때
+3.4 로그를 기록할 때
+
+# 반환타입 있는 메소드
+: 메소드가 호출된 후 특정 타입의 값을 반환.
+  이 값은 메소드를 호출한 곳으로 전달.
+
+-------------
+
+# public
+: 접근 제어자로서 클래스의 멤버(필드, 메소드 등)에 대한 접근 권한을 설정하는 데 사용
+  코드의 접근 수준을 제어할 수 있음
+  캡슐화를 통해 코드의 안정성과 보안성을 높임
+
+# 접근 제어자 : public
+이 메소드는 모든 클래스에서 접근할 수 있음
+즉, 이 클래스가 어느 패키지에 있든지 간에, 이 메소드는 모든 클래스에서 호출할 수 있음.
+
+# 접근 제어자 : 없음 (기본 접근 제어자)
+이 메소드는 같은 패키지 내의 클래스에서만 접근할 수 있음.
+패키지 외부에서는 이 메서드에 접근할 수 없음.
+
+# 접근 제어자 : protected
+동일한 패키지 내의 클래스 및 상속받은 클래스에서 접근할 수 있음.
+
+# 접근 제어자 : private
+동일한 클래스 내에서만 접근할 수 있음.
+
+-------------
+
+# 기본 생성자
+Fish() {
+}
+: 매개변수가 없는 생성자
+- 객체를 생성할 때 초기화 작업을 수행하지 않음
+- 단순히 객체를 생성
+- 자동 생성됨. 클래스에 생성자가 하나도 정의되어 있지 않으면 컴파일러가 자동으로 기본 생성자를 추가함.
+  그러나 하나 이상의 생성자가 정의되어 있으면 기본 생성자는 자동으로 추가되지 않음.
+  이 경우 기본 생성자가 필요하면 위처럼 명시적으로 정의해야 함.
+
+[사용 예]
+public class Main {
+    public static void main(String[] args) {
+        Fish fish1 = new Fish(); 
+    }
+}
+
+# 매개변수가 있는 생성자
+	Fish(String name, int min) {
+	    this.name = name;
+	    this.min = min;
+	}
+: 매개변수(name과 min)를 받는 생성자.
+- 객체를 생성할 때 전달된 매개변수 값을 사용하여 객체의 필드를 초기화함.
+  이 생성자를 통해 객체를 생성하면, name과 min 필드가 지정된 값으로 초기화됨.
+
+[사용 예]
+public class Main {
+    public static void main(String[] args) {
+        Fish fish2 = new Fish("Goldfish", 5); // 매개변수가 있는 생성자를 통해 객체 생성
+    }
+}
+
+# 위 생성자의 차이점
+1. 초기화 방식:
+- 기본 생성자: 객체를 생성할 때 필드를 초기화하지 않음. 
+               단순히 객체를 생성.
+- 매개변수가 있는 생성자: 객체를 생성할 때 전달된 매개변수 값을 사용하여 필드를 초기화함.
+
+2. 사용 목적:
+- 기본 생성자: 객체를 생성한 후 필드를 개별적으로 설정해야 할 때.
+- 매개변수가 있는 생성자: 객체를 생성하면서 동시에 필드를 초기화해야 할 때 사용.
+
+-------------
+
+# 컴포지션
+: "Has-A" 관계를 나타냄
+  한 클래스가 다른 클래스의 객체를 포함하는 관계
+
+[사용 예]
+public class Sea {
+	String name = "태평양";
+	Fish fish;
+}
+
+public class Fish {
+	String name;
+	int min;
+	
+	public void burn() {
+		System.out.println("경고!! " + name + "을 " + min + "분이나 태웠습니다.");
+	}
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Sea sea = new Sea(); // Sea 객체 생성
+        sea.tuna = new Fish("참치", 10); // Fish 객체를 Sea 객체의 멤버 변수로 설정
+
+        sea.tuna.burn(); // Fish 객체의 burn 메서드 호출
+    }
+}
+: Sea 클래스가 Fish 객체를 멤버 변수로 포함하여 "Has-A" 관계를 나타냄.
+- 구현 방법: Sea 클래스는 Fish 객체를 멤버 변수로 포함하고, 필요에 따라 Fish 객체를 생성하고 사용할 수 있음.
+
+-------------
+
+# 인터페이스
+: 인터페이스는 클래스가 따라야 하는 규칙을 정의
+  메서드의 시그니처(이름, 매개변수, 반환 타입)를 정의하지만, 실제 구현은 제공하지 않음.
+- List 인터페이스를 불러오면, 다양한 List 인터페이스 구현 클래스를 이용할 수 있음
+  (인터페이스 구현 클래스 : ArrayList, LinkedList 등)
+
+-------------
+
+# List 인터페이스 종류
+- add(E e): 요소를 리스트에 추가
+- get(int index): 지정된 위치에 있는 요소를 반환
+- remove(int index): 지정된 위치에 있는 요소를 제거
+- size(): 리스트의 크기를 반환
+- isEmpty(): 리스트가 비어있는지 여부를 반환
+- contains(Object o): 리스트에 특정 요소가 포함되어 있는지 여부를 반환
+- indexOf(Object o): 리스트에서 특정 요소의 첫 번째 발생 위치의 인덱스를 반환
+
+# ArrayList
+: 인터페이스의 구현 클래스
+  내부적으로 동적 배열을 사용하여 요소를 저장
+
+# 선언방식의 차이
+1. List<String> names = new ArrayList<String>();
+: List 인터페이스 타입의 변수에 ArrayList 객체를 할당하는 것
+- 코드가 인터페이스에 의존하기에 나중에 구현 클래스를 쉽게 변경할 수 있음
+  예를 들어, ArrayList를 LinkedList로 쉽게 변경할 수 있음
+
+2. ArrayList<String> names = new ArrayList<String>();
+: ArrayList 클래스 타입의 변수에 ArrayList 객체를 할당하는 것
+- 일반적으로, 코드의 유연성과 재사용성을 높이기 위해 인터페이스 타입(List)을 사용하는 것이 좋음
+  그러나 특정 구현체의 기능을 명확히 사용해야 하는 경우에는 구현 클래스 타입(ArrayList)을 사용할 수 있음.
+
+-------------
+
+#  컴포지션을 구성 차이 : List를 사용하지 않은 경우 / List를 사용한 경우
+
+1. List를 사용하지 않은 경우
+
+[사용 예]
+
+<Sea 클래스>
+public class Sea {
+    String name; 
+    Fish fish;
+}
+
+<Fish 클래스>
+public class Fish {
+    String name; 
+    int age;
+
+    public Fish(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public void burn() {
+        System.out.println("경고!! " + name + "을 " + age + "분이나 태웠습니다.");
+    }
+}
+
+<Main 클래스>
+public class Main {
+    public static void main(String[] args) {
+        // 첫 번째 물고기 객체 생성 및 초기화
+        Fish fish1 = new Fish("슈크림붕어빵", 3);
+        System.out.println("name : " + fish1.name + " / 태운 : " + fish1.age);
+        fish1.burn();
+        
+        // 두 번째 물고기 객체 생성 및 초기화
+        Fish fish2 = new Fish("팥붕어빵", 5);
+        System.out.println("name : " + fish2.name + " / 태운 : " + fish2.age);
+        fish2.burn();
+
+        // 바다 객체 생성
+        Sea sea1 = new Sea();
+        sea1.name = "태평양";
+
+        // 첫 번째 물고기 할당
+        sea1.fish = fish1;
+        System.out.println("Sea에 할당된 물고기 1 : " + sea1.fish.name + " / 태운 : " + sea1.fish.age);
+
+        // 두 번째 물고기 할당
+        sea1.fish = fish2;
+        System.out.println("Sea에 할당된 물고기 2 : " + sea1.fish.name + " / 태운 : " + sea1.fish.age);
+    }
+}
+
+- 장점 : 필요에 따라 참조를 변경할 수 있음
+- 단점 : 특정 시점에 하나의 Fish 객체만 참조하므로 다수의 Fish 객체를 동시에 관리하는 경우에는 적합하지 않음
+
+2. List를 사용한 경우
+
+[사용 예]
+
+<Sea 클래스>
+import java.util.ArrayList;
+import java.util.List;
+
+public class Sea {
+    String name;
+    List<Fish> fishes;
+
+    public Sea(String name) {
+        this.name = name;
+        this.fishes = new ArrayList<>();
+    }
+
+    public void addFish(Fish fish) {
+        fishes.add(fish);
+    }
+
+    public void printAllFishes() {
+        System.out.println("바다 안에 사는 물고기들:");
+        for (Fish fish : fishes) {
+            System.out.println("name : " + fish.name + " / 태운 : " + fish.age);
+        }
+    }
+}
+Fish 클래스
+java
+코드 복사
+public class Fish {
+    String name;
+    int age;
+
+    public Fish(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public void burn() {
+        System.out.println("경고!! " + name + "을 " + age + "분이나 태웠습니다.");
+    }
+}
+Test1 클래스
+java
+코드 복사
+public class Test1 {
+    public static void main(String[] args) {
+        // 여러 물고기 객체 생성
+        Fish fish1 = new Fish("슈크림붕어빵", 3);
+        Fish fish2 = new Fish("팥붕어빵", 5);
+
+        // 바다 객체 생성 및 물고기 추가
+        Sea sea1 = new Sea("태평양");
+        sea1.addFish(fish1);
+        sea1.addFish(fish2);
+
+        // 바다 안의 모든 물고기 출력
+        sea1.printAllFishes();
+    }
+}
+# 
