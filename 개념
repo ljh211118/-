@@ -54,12 +54,15 @@
 - 메소드의 조기 종료
 
 3. print를 사용하는 경우 (반환 O)
+
 3.1 객체의 상태를 콘솔에 출력할 때
 [사용 예]
-    public void printDetails() {
+    void name() {
         System.out.println("Name: " + name);
-        System.out.println("Age: " + age);
     }
+- 장점 : 단순히 출력을 위한 함수이므로 간단함
+- 단점 : 이 함수는 이름을 출력할 뿐, 이름을 반환하지 않기 때문에 다른 곳에서 이름을 사용할 수 없음
+
 3.2 디버깅 정보를 출력할 때
 3.3 사용자 인터페이스 메시지를 출력할 때
 3.4 로그를 기록할 때
@@ -67,6 +70,13 @@
 # 반환타입 있는 메소드
 : 메소드가 호출된 후 특정 타입의 값을 반환.
   이 값은 메소드를 호출한 곳으로 전달.
+[사용 예]
+    String name() {
+        System.out.println("고양이 이름 : " + name);
+        return name;
+}
+- 장점 : 이름을 출력하는 것 외에도 반환하기 때문에, 호출자가 반환 값을 사용할 수 있음
+- 단점 : 불필요한 반환 값을 처리함
 
 -------------
 
@@ -261,6 +271,7 @@ public class Main {
 
 2. List를 사용한 경우
 
+2.1 선언만 하고 초기화 X -> 생성자에서 초기화
 [사용 예]
 
 <Sea 클래스>
@@ -269,11 +280,11 @@ import java.util.List;
 
 public class Sea {
     String name;
-    List<Fish> fishes;
+    List<Fish> fishes; // 선언만 하고 초기화하지 않음
 
     public Sea(String name) {
         this.name = name;
-        this.fishes = new ArrayList<>();
+        this.fishes = new ArrayList<>(); // 생성자에서 초기화
     }
 
     public void addFish(Fish fish) {
@@ -287,9 +298,8 @@ public class Sea {
         }
     }
 }
-Fish 클래스
-java
-코드 복사
+
+<Fish 클래스>
 public class Fish {
     String name;
     int age;
@@ -303,9 +313,8 @@ public class Fish {
         System.out.println("경고!! " + name + "을 " + age + "분이나 태웠습니다.");
     }
 }
-Test1 클래스
-java
-코드 복사
+
+<Test1 클래스>
 public class Test1 {
     public static void main(String[] args) {
         // 여러 물고기 객체 생성
@@ -321,4 +330,143 @@ public class Test1 {
         sea1.printAllFishes();
     }
 }
-# 
+
+- 장점 : 초기화의 일관성과 유연성을 제공함
+         인터페이스 타입을 사용하여 다양한 구현체로 쉽게 변경할 수 있음
+- 단점 : Sea 객체가 생성될 때마다 항상 fishes 리스트가 초기화되므로, 리스트가 필요하지 않은 경우에도 초기화 비용이 발생함.
+
+2.2 선언과 동시에 초기화
+[사용 예]
+
+<Sea 클래스>
+import java.util.ArrayList;
+import java.util.List;
+
+public class Sea {
+    String name;
+    ArrayList<Fish> fishes = new ArrayList<Fish>();  // 선언과 동시에 초기화
+
+    public Sea(String name) {
+        this.name = name;
+    }
+
+    public void addFish(Fish fish) {
+        fishes.add(fish);
+    }
+
+    public void printAllFishes() {
+        System.out.println("바다 안에 사는 물고기들:");
+        for (Fish fish : fishes) {
+            System.out.println("name : " + fish.name + " / 태운 : " + fish.age);
+        }
+    }
+}
+
+<Fish 클래스>
+public class Fish {
+    String name;
+    int age;
+
+    public Fish(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public void burn() {
+        System.out.println("경고!! " + name + "을 " + age + "분이나 태웠습니다.");
+    }
+}
+
+<Test1 클래스>
+public class Test1 {
+    public static void main(String[] args) {
+        // 여러 물고기 객체 생성
+        Fish fish1 = new Fish("슈크림붕어빵", 3);
+        Fish fish2 = new Fish("팥붕어빵", 5);
+
+        // 바다 객체 생성 및 물고기 추가
+        Sea sea1 = new Sea("태평양");
+        sea1.addFish(fish1);
+        sea1.addFish(fish2);
+
+        // 바다 안의 모든 물고기 출력
+        sea1.printAllFishes();
+    }
+}
+
+- 장점 : 변수 선언과 동시에 초기화되므로, 객체를 바로 사용할 수 있음
+- 단점 : 객체가 필요하지 않은 경우에도 초기화 비용을 지불하게 됨
+         객체 초기화 시점의 제어가 어려움
+
+# List를 사용한 2가지 경우 중 더 나은 경우
+: 2.1이 더 낫다.
+2.1 코드는 객체가 생성될 때 fishes가 항상 초기화되므로, fishes가 null인 상태를 고려할 필요가 없음
+그러나 2.2 코드는 생성자에서 fishes를 초기화하면서도, addFish 메서드에서 다시 초기화 체크를 하고 있음.
+이 경우 fishes가 null일 가능성은 없으므로, 이 부분의 코드는 불필요하게 중복됨.
+
+2.3 필요 시점에 초기화
+
+<Sea 클래스>
+import java.util.ArrayList;
+import java.util.List;
+
+public class Sea {
+    String name;
+    ArrayList<Fish> fishes;
+
+    public Sea(String name) {
+        this.name = name;
+    }
+
+    public void addFish(Fish fish) {
+        if (fishes == null) {
+            fishes = new ArrayList<Fish>();  // 필요 시점에 초기화
+        }
+        fishes.add(fish);
+    }
+}
+
+: 만약 정말로 fishes의 초기화를 지연시키고 싶다면, 생성자에서 초기화하지 않고 필요할 때 초기화하는 것이 좋음
+- 단점 : fishes를 사용할 때마다 null 체크를 해야 함
+
+-------------
+
+# import
+:  Java에서 다른 패키지에 정의된 클래스나 인터페이스를 현재 클래스에서 사용할 수 있도록 하는 키워드
+
+[사용 예]
+
+<Package 1: animals>
+<Cat 클래스>
+package animals;
+
+public class Cat {
+    private String name;
+    private int age;
+
+    public Cat(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public void printDetails() {
+        System.out.println("Name: " + name);
+        System.out.println("Age: " + age);
+    }
+}
+
+<Package 2: main>
+<Test 클래스>
+package main;
+
+import animals.Cat;
+
+public class Test {
+    public static void main(String[] args) {
+        Cat cat = new Cat("Whiskers", 3);
+        cat.printDetails();
+    }
+}
+
+: import 키워드를 사용하여 다른 패키지에 있는 클래스를 가져와서 사용하려면 해당 클래스에 public 접근 제한자가 붙어 있어야 함
+  그렇지 않으면, 다른 패키지에서 해당 클래스를 사용할 수 없음
