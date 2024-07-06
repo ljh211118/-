@@ -34,10 +34,14 @@
 
 1.3 객체 간의 상호작용
 [사용 예]
+public class Car {
+    String model;
+    boolean isRunning;
+
     // 기본 생성자
     Car(String model) {
         this.model = model;
-        this.isRunning = false;
+        this.isRunning = false; // 기본적으로 시동이 꺼진 상태로 시작
     }
 
     // 시동 켜기 메서드
