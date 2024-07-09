@@ -619,3 +619,64 @@ public class Main {
 Fish 클래스의 static 변수 count는 Fish와 Shark 객체가 생성될 때마다 증가합니다.
 Shark 클래스의 static 변수 count1은 Shark 객체가 생성될 때마다 증가합니다.
 
+-------------
+
+# implements
+: 클래스가 특정 인터페이스를 구현하도록 지정. 인터페이스의 모든 메소드를 구현해야 함.
+
+# 인터페이스의 모든 메소드를 구현하지 않아도 되는 2가지 방법
+
+1. 추상 클래스 사용하기 (abstract class)
+
+<사용 예?
+public interface IAnimal {
+    public void run();
+    public void walk(int speed);
+}
+
+public abstract class Dog implements IAnimal {
+    public void run() {
+        System.out.println("강아지가 뛰어갑니다.");
+    }
+    // walk 메소드는 구현되지 않았기 때문에 이 클래스는 추상 클래스가 됩니다.
+}
+
+public class BabyDog extends Dog {
+    public void walk(int speed) {
+        System.out.println("강아지가 걸어갑니다.");
+    }
+}
+
+: 인터페이스의 일부 메소드를 구현하지 않아도 됨.
+  이 경우 해당 클래스는 추상 클래스로 선언되어야 하며, 이를 상속받는 클래스가 나머지 메소드를 구현해야 함.
+
+2. 익명 클래스 사용하기 (anonymous class)
+
+<사용 예>
+public class Main {
+
+    public static void main(String[] args) {
+
+        IAnimal animal1 = new IAnimal() {
+            public void run() {
+                System.out.println("동물이 뛰어갑니다.");
+            }
+
+            public void walk(int speed) {
+                System.out.println("동물이 걸어갑니다.");
+            }
+        };
+        animal1.run();
+        animal1.walk(10);
+    }
+}
+
+: 위 코드에서 IAnimal 인터페이스를 익명 클래스로 구현하고, run과 walk 메소드를 구현함
+  모든 메소드를 구현해야 하지만, 이 익명 클래스는 일회성으로 사용됨
+
+-------------
+
+# 해시맵
+: 해시맵을 사용하는 주요 이유는 키-값 쌍으로 데이터를 효율적으로 저장하고 검색하기 위해서
+  예제에서는 날짜별로 판매된 상품 목록과 매출액을 관리하기 위해 해시맵을 사용함
+  이렇게 하면 특정 날짜에 대한 데이터를 빠르게 검색하고 업데이트할 수 있음
